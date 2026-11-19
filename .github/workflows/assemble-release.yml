@@ -17,7 +17,7 @@ jobs:
           TAG: v1.0.1
         run: |
           mkdir parts
-          gh release download "$TAG" --pattern 'SistemaTemperatura.part*' --dir parts
+          gh release download "$TAG" --pattern 'SistemaTemperatura-v1.0.1.part*' --dir parts
       - name: Join and verify installer
         run: |
           cat parts/SistemaTemperatura-v1.0.1.part01 parts/SistemaTemperatura-v1.0.1.part02 parts/SistemaTemperatura-v1.0.1.part03 > SistemaTemperatura-Instalador.exe
@@ -27,5 +27,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: v1.0.0
+          TAG: v1.0.1
         run: gh release upload "$TAG" SistemaTemperatura-Instalador.exe --clobber
