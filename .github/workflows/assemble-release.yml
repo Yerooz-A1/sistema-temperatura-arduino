@@ -1,31 +1,31 @@
 name: Assemble and publish Windows installer
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/assemble-release.yml
+  release:
+    types: [published]
 permissions:
   contents: write
 jobs:
   assemble:
+    if: github.event.release.tag_name == 'v1.0.2'
     runs-on: ubuntu-latest
     steps:
       - name: Download release parts
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: v1.0.1
+          TAG: v1.0.2
         run: |
           mkdir parts
-          gh release download "$TAG" --pattern 'SistemaTemperatura-v1.0.1.part*' --dir parts
+          gh release download "$TAG" --pattern 'SistemaTemperatura-v1.0.2.part*' --dir parts
       - name: Join and verify installer
         run: |
-          cat parts/SistemaTemperatura-v1.0.1.part01 parts/SistemaTemperatura-v1.0.1.part02 parts/SistemaTemperatura-v1.0.1.part03 > SistemaTemperatura-Instalador.exe
-          test "$(stat -c%s SistemaTemperatura-Instalador.exe)" = "176067584"
-          echo "6d29bdbf8c3b01a1aed773427061594138c539f5c9fd05e85a9b132f8a340c53  SistemaTemperatura-Instalador.exe" | sha256sum --check
+          cat parts/SistemaTemperatura-v1.0.2.part01 parts/SistemaTemperatura-v1.0.2.part02 parts/SistemaTemperatura-v1.0.2.part03 > SistemaTemperatura-Instalador.exe
+          test "$(stat -c%s SistemaTemperatura-Instalador.exe)" = "176071680"
+          echo "DFAAB72DA632BA864FC59D8A22B990DFC17B2D4251B8B9E9639E7DA9A463CBCD  SistemaTemperatura-Instalador.exe" | sha256sum --check
       - name: Upload complete installer to the release
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: v1.0.1
+          TAG: v1.0.2
         run: gh release upload "$TAG" SistemaTemperatura-Instalador.exe --clobber
+
