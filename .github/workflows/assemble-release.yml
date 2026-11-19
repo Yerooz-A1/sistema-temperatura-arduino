@@ -14,15 +14,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: v1.0.0
+          TAG: v1.0.1
         run: |
           mkdir parts
           gh release download "$TAG" --pattern 'SistemaTemperatura.part*' --dir parts
       - name: Join and verify installer
         run: |
-          cat parts/SistemaTemperatura.part01 parts/SistemaTemperatura.part02 parts/SistemaTemperatura.part03 > SistemaTemperatura-Instalador.exe
+          cat parts/SistemaTemperatura-v1.0.1.part01 parts/SistemaTemperatura-v1.0.1.part02 parts/SistemaTemperatura-v1.0.1.part03 > SistemaTemperatura-Instalador.exe
           test "$(stat -c%s SistemaTemperatura-Instalador.exe)" = "176067584"
-          echo "655d9aab21a6fea4c9fe64f2d21322207a9a4274268c87267816f3975250b9cb  SistemaTemperatura-Instalador.exe" | sha256sum --check
+          echo "6d29bdbf8c3b01a1aed773427061594138c539f5c9fd05e85a9b132f8a340c53  SistemaTemperatura-Instalador.exe" | sha256sum --check
       - name: Upload complete installer to the release
         env:
           GH_TOKEN: ${{ github.token }}
