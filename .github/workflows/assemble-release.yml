@@ -20,8 +20,8 @@ jobs:
       - name: Join and verify installer
         run: |
           cat parts/SistemaTemperatura-v1.0.3.part01 parts/SistemaTemperatura-v1.0.3.part02 parts/SistemaTemperatura-v1.0.3.part03 > SistemaTemperatura-Instalador.exe
-          test "$(stat -c%s SistemaTemperatura-Instalador.exe)" = "173518848"
-          echo "0B6E12D3ED7190D2C2AF2CB135B6FCFE0F78C60E80AD1C4B5D488DCDAD88332C  SistemaTemperatura-Instalador.exe" | sha256sum --check
+          test "$(stat -c%s SistemaTemperatura-Instalador.exe)" = "177020928"
+          echo "C30AF8CF8B557EBA3D80E31223138209F5518186B0C326253089900463845773  SistemaTemperatura-Instalador.exe" | sha256sum --check
       - name: Upload complete installer to the release
         env:
           GH_TOKEN: ${{ github.token }}
