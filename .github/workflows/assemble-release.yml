@@ -6,25 +6,25 @@ permissions:
   contents: write
 jobs:
   assemble:
-    if: github.event.release.tag_name == 'v1.0.3'
+    if: github.event.release.tag_name == 'v1.0.4'
     runs-on: ubuntu-latest
     steps:
       - name: Download release parts
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: v1.0.3
+          TAG: v1.0.4
         run: |
           mkdir parts
-          gh release download "$TAG" --pattern 'SistemaTemperatura-v1.0.3.part*' --dir parts
+          gh release download "$TAG" --pattern 'SistemaTemperatura-v1.0.4.part*' --dir parts
       - name: Join and verify installer
         run: |
-          cat parts/SistemaTemperatura-v1.0.3.part01 parts/SistemaTemperatura-v1.0.3.part02 parts/SistemaTemperatura-v1.0.3.part03 > SistemaTemperatura-Instalador.exe
-          test "$(stat -c%s SistemaTemperatura-Instalador.exe)" = "177020928"
-          echo "C30AF8CF8B557EBA3D80E31223138209F5518186B0C326253089900463845773  SistemaTemperatura-Instalador.exe" | sha256sum --check
+          cat parts/SistemaTemperatura-v1.0.4.part01 parts/SistemaTemperatura-v1.0.4.part02 parts/SistemaTemperatura-v1.0.4.part03 > SistemaTemperatura-Instalador.exe
+          test "$(stat -c%s SistemaTemperatura-Instalador.exe)" = "164086784"
+          echo "8DCDD65745A2C25D10F217F45FC759C81610EEBDE3722E23311D633C7EDEAEC3  SistemaTemperatura-Instalador.exe" | sha256sum --check
       - name: Upload complete installer to the release
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: v1.0.3
+          TAG: v1.0.4
         run: gh release upload "$TAG" SistemaTemperatura-Instalador.exe --clobber
